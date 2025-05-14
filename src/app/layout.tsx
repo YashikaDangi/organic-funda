@@ -4,6 +4,14 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import Header from "@/components/Header";
 
+import { Pacifico } from "next/font/google";
+import WhatsAppButton from "@/components/WhatsAppButton";
+
+const pacifico = Pacifico({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-pacifico",
+});
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,14 +33,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${pacifico.variable}`}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className="font-sans"
       >
         
         <AuthProvider>
-          <Header/>
+          {/* <Header/> */}
           {children}
+          <WhatsAppButton/>
         </AuthProvider>
       </body>
     </html>

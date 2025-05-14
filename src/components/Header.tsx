@@ -7,8 +7,9 @@ import { UserIcon, ShoppingCartIcon } from "@heroicons/react/24/solid";
 
 const Header = () => {
   const { user, login, logout, cart } = useAuth();
-  const cartItemCount = cart?.reduce((acc, item) => acc + item.quantity, 0) || 0;
-  
+  const cartItemCount =
+    cart?.reduce((acc, item) => acc + item.quantity, 0) || 0;
+
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -26,34 +27,48 @@ const Header = () => {
   }, [scrolled]);
 
   return (
-    <header 
+    <header
       className={`fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center transition-all duration-300 ${
-        scrolled 
-          ? "bg-stone-800/90 backdrop-blur-md shadow-lg" 
+        scrolled
+          ? "bg-stone-800/90 backdrop-blur-md shadow-lg"
           : "bg-transparent"
       }`}
     >
       {/* Logo */}
       <Link
         href="/"
-        className="flex items-center gap-2 font-extrabold text-2xl md:text-3xl transition-all hover:opacity-80"
+        className="flex items-center gap-2 text-2xl md:text-3xl transition-all hover:opacity-80"
       >
-        <span role="img" aria-label="mushroom" className="text-xl md:text-2xl">🍄</span>
-        <span className="text-green-200">OrganicFunda</span>
+        <span role="img" aria-label="mushroom" className="text-xl md:text-2xl">
+          🍄
+        </span>
+        <span className="text-green-200 font-pacifico">OrganicFunda</span>
       </Link>
 
       {/* Navigation */}
       <nav className="hidden md:flex items-center space-x-8">
-        <Link href="/shop" className="text-stone-200 hover:text-green-200 font-medium transition-colors">
+        <Link
+          href="/shop"
+          className="text-stone-200 hover:text-green-200 font-medium transition-colors"
+        >
           Shop
         </Link>
-        <Link href="/about" className="text-stone-200 hover:text-green-200 font-medium transition-colors">
+        <Link
+          href="/about"
+          className="text-stone-200 hover:text-green-200 font-medium transition-colors"
+        >
           About
         </Link>
-        <Link href="/blog" className="text-stone-200 hover:text-green-200 font-medium transition-colors">
+        <Link
+          href="/blog"
+          className="text-stone-200 hover:text-green-200 font-medium transition-colors"
+        >
           Blog
         </Link>
-        <Link href="/contact" className="text-stone-200 hover:text-green-200 font-medium transition-colors">
+        <Link
+          href="/contact"
+          className="text-stone-200 hover:text-green-200 font-medium transition-colors"
+        >
           Contact
         </Link>
       </nav>
@@ -62,7 +77,10 @@ const Header = () => {
       <div className="flex items-center gap-6">
         {/* Cart Icon */}
         <div className="relative" id="cart-icon">
-          <Link href="/cart" className="text-stone-200 hover:text-green-200 transition-colors">
+          <Link
+            href="/cart"
+            className="text-stone-200 hover:text-green-200 transition-colors"
+          >
             <ShoppingCartIcon className="w-6 h-6" />
           </Link>
           {cartItemCount > 0 && (

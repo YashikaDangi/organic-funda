@@ -1,60 +1,130 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
+import { ShoppingCartIcon, UserIcon } from "@heroicons/react/24/solid";
+import { FaLeaf } from "react-icons/fa";
+import { GiHerbsBundle } from "react-icons/gi";
+import { GiMushroomGills } from "react-icons/gi";
 
 const Hero = () => {
-  const [activeTab, setActiveTab] = useState('fresh');
+  const { user, login, logout, cart } = useAuth();
+  const cartItemCount =
+    cart?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
   return (
-    <section
-      className="relative w-full h-[90vh] overflow-hidden bg-stone-700 text-white"
-    >
-      {/* Soil-like background at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-[30%] bg-stone-950 z-0"></div>
-      
-      <div className="container mx-auto px-2 py-4 flex flex-col h-full relative z-10">
-        {/* Hero Text Content */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between pt-20 md:pt-20">
-          <div className="w-full md:w-1/2 z-20">
-            <h1 className="text-4xl md:text-2xl lg:text-6xl font-semibold leading-tight text-stone-100">
-              Grown with<br/> care,<br/> packed with<br/> nutrients. 
-            </h1>
-            <h2 className="text-2xl md:text-3xl font-semibold mt-20 text-green-200">
-              Discover the taste of pure,<br/> chemical-free mushrooms.
-            </h2>
-          </div>
-          
-          {/* Mushroom Images Section */}
-          <div className="w-full md:w-1/2 flex flex-col md:flex-row gap-4 mt-8 md:mt-0">
-            <div 
-              className="relative rounded-lg overflow-hidden w-full md:w-1/2 h-[350px] cursor-pointer border-4 border-stone-300"
-              onClick={() => setActiveTab('dried')}
-            >
-              <img 
-                src="/white-oyester.jpeg" 
-                alt="Dried Mushrooms"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/20"></div>
-             
+    <section className="w-full h-full bg-[#F2EFEA] flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-6xl">
+        {/* Top Navigation */}
+        <div className="flex justify-between items-center text-sm text-[#344230] mb-10">
+          {/* Logo */}
+
+          <Link
+            href="/"
+            className="text-3xl font-bold text-[#0E1C4C] flex items-center gap-2"
+          >
+            <GiMushroomGills className="text-[#4B423A]" />
+            <span className="font-pacifico text-[#4B423A]">OrganicFunda</span>
+          </Link>
+
+          {/* Navigation */}
+          <nav className="hidden md:flex gap-6 text-[#344230] font-medium">
+            <Link href="/shop" className="hover:text-green-600">
+              Shop
+            </Link>
+            <Link href="/about" className="hover:text-green-600">
+              About
+            </Link>
+            <Link href="/blog" className="hover:text-green-600">
+              Blog
+            </Link>
+            <Link href="/contact" className="hover:text-green-600">
+              Contact
+            </Link>
+          </nav>
+
+          {/* Right Icons */}
+          <div className="flex items-center gap-4">
+            {/* Cart */}
+            <div className="relative">
+              <Link
+                href="/cart"
+                className="text-[#183E2D] hover:text-green-700 transition"
+              >
+                <ShoppingCartIcon className="w-6 h-6" />
+              </Link>
+              {cartItemCount > 0 && (
+                <span className="absolute -top-2 -right-3 bg-green-600 text-white text-xs px-2 py-0.5 rounded-full">
+                  {cartItemCount}
+                </span>
+              )}
             </div>
-            
-            <div 
-              className="relative rounded-lg overflow-hidden w-full md:w-1/2 h-[350px] cursor-pointer border-4 border-stone-300"
-              onClick={() => setActiveTab('fresh')}
-            >
-              <img 
-                src="/pink-oyester.jpeg" 
-                alt="Fresh Mushrooms"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/20"></div>
-              
-            </div>
+
+            {/* Auth */}
+            {!user ? (
+              <button
+                onClick={login}
+                className="bg-green-700 hover:bg-green-600 text-white px-4 py-2 rounded-full font-medium text-sm"
+              >
+                Login
+              </button>
+            ) : (
+              <div className="flex items-center gap-3 text-[#183E2D]">
+                <div className="bg-green-800 rounded-full p-1">
+                  <UserIcon className="w-5 h-5 text-green-100" />
+                </div>
+                <span className="hidden md:inline text-sm font-medium">
+                  {user.displayName}
+                </span>
+                <button
+                  onClick={logout}
+                  className="bg-stone-700 hover:bg-stone-600 text-white px-3 py-1.5 rounded-full text-xs"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         </div>
-        
+
+        {/* Main Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+          {/* Text Content */}
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold text-[#183E2D] leading-snug">
+              From{" "}
+              <span className="relative inline-block">
+                <span className="z-10 relative">fresh produce</span>
+                <svg
+                  className="absolute left-0 bottom-0 w-full h-3 z-0"
+                  viewBox="0 0 200 20"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M0 10 Q50 20 100 10 T200 10"
+                    fill="none"
+                    stroke="#C9E265"
+                    strokeWidth="6"
+                  />
+                </svg>
+              </span>{" "}
+              to daily essentials, shop smarter!
+            </h1>
+          </div>
+
+          {/* Image */}
+          <div className="flex justify-center">
+            <Image
+              src="/mushroom4.jpg"
+              alt="Mushroom supplement product"
+              width={300}
+              height={500}
+              className="rounded-2xl shadow-lg"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
