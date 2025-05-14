@@ -21,7 +21,7 @@ const products: Product[] = [
     name: "White Oyster Mushroom",
     price: 96.0,
     originalPrice: 120.0,
-    image: "/mushroom3.jpg",
+    image: "/white-oyester.jpg",
     description:
       "Dried White Oyster Mushrooms – 100% pure, grown naturally with high biocompounds.",
     inStock: true,
@@ -34,7 +34,7 @@ const products: Product[] = [
     name: "Pink Oyster Mushroom",
     price: 96.0,
     originalPrice: 120.0,
-    image: "/mushroom1.jpg",
+    image: "/pink-oyester.jpg",
     description:
       "Exotic Pink Oysters – flavor-packed and full of nutrients, harvested fresh.",
     inStock: false,
@@ -71,8 +71,9 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F7F7] px-4 py-10">
+    <div id="shop" className="min-h-screen bg-[#F7F7F7] px-4 py-10">
       <div className="max-w-6xl mx-auto px-4">
+        <h1 className="text-black flex justify-center py-8 text-3xl">Our Mushrooms</h1>
         
         
         <div className="grid gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto">

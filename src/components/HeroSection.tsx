@@ -31,14 +31,14 @@ const Hero = () => {
 
           {/* Navigation */}
           <nav className="hidden md:flex gap-6 text-[#344230] font-medium">
-            <Link href="/shop" className="hover:text-green-600">
+            <Link href="#shop" className="hover:text-green-600">
               Shop
             </Link>
             <Link href="/about" className="hover:text-green-600">
               About
             </Link>
-            <Link href="/blog" className="hover:text-green-600">
-              Blog
+            <Link href="#recipes" className="hover:text-green-600">
+              Recipes
             </Link>
             <Link href="/contact" className="hover:text-green-600">
               Contact
