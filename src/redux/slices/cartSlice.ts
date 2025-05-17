@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
+import { getCartItems, saveCartItems, clearCartInFirestore } from '@/services/cartService';
 
 export interface Product {
   id: string;
@@ -13,12 +14,18 @@ interface CartState {
   items: Product[];
   totalItems: number;
   totalAmount: number;
+  isSyncing: boolean;
+  lastSynced: string | null;
+  error: string | null;
 }
 
 const initialState: CartState = {
   items: [],
   totalItems: 0,
   totalAmount: 0,
+  isSyncing: false,
+  lastSynced: null,
+  error: null,
 };
 
 const calculateTotals = (items: Product[]) => {
@@ -31,6 +38,57 @@ const calculateTotals = (items: Product[]) => {
     { totalItems: 0, totalAmount: 0 }
   );
 };
+
+// Async thunks for server operations
+export const fetchCartFromServer = createAsyncThunk(
+  'cart/fetchFromServer',
+  async (userId: string) => {
+    try {
+      const items = await getCartItems(userId);
+      return items;
+    } catch (error) {
+      throw error instanceof Error ? error.message : 'Failed to fetch cart';
+    }
+  }
+);
+
+export const syncCartWithServer = createAsyncThunk(
+  'cart/syncWithServer',
+  async ({ userId, items }: { userId: string; items: Product[] }, { rejectWithValue }) => {
+    try {
+      // Create a deep copy of the items to prevent reference issues
+      const itemsCopy = JSON.parse(JSON.stringify(items));
+      
+      // Always sync the cart, even if empty (to support cart clearing)
+      await saveCartItems(userId, itemsCopy);
+      
+      // Force a small delay before returning to allow Firestore to process
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      return itemsCopy;
+    } catch (error) {
+      return rejectWithValue(error instanceof Error ? error.message : 'Failed to sync cart');
+    }
+  }
+);
+
+// Specific thunk for clearing the cart to ensure it's properly synced with Firestore
+export const clearCartInServer = createAsyncThunk(
+  'cart/clearInServer',
+  async (userId: string, { dispatch, rejectWithValue }) => {
+    try {
+      // First clear the local cart
+      dispatch(clearCart());
+      
+      // Use the dedicated function to clear cart in Firestore
+      await clearCartInFirestore(userId);
+      
+      return true;
+    } catch (error) {
+      return rejectWithValue(error instanceof Error ? error.message : 'Failed to clear cart');
+    }
+  }
+);
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -78,15 +136,59 @@ export const cartSlice = createSlice({
       state.totalItems = 0;
       state.totalAmount = 0;
     },
+    setCartItems: (state, action: PayloadAction<Product[]>) => {
+      state.items = action.payload;
+      const totals = calculateTotals(state.items);
+      state.totalItems = totals.totalItems;
+      state.totalAmount = totals.totalAmount;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      // Fetch cart from server
+      .addCase(fetchCartFromServer.pending, (state) => {
+        state.isSyncing = true;
+        state.error = null;
+      })
+      .addCase(fetchCartFromServer.fulfilled, (state, action) => {
+        state.items = action.payload;
+        const totals = calculateTotals(state.items);
+        state.totalItems = totals.totalItems;
+        state.totalAmount = totals.totalAmount;
+        state.isSyncing = false;
+        state.lastSynced = new Date().toISOString();
+        state.error = null;
+      })
+      .addCase(fetchCartFromServer.rejected, (state, action) => {
+        state.isSyncing = false;
+        state.error = action.error.message || 'Failed to fetch cart';
+      })
+      // Sync cart with server
+      .addCase(syncCartWithServer.pending, (state) => {
+        state.isSyncing = true;
+        state.error = null;
+      })
+      .addCase(syncCartWithServer.fulfilled, (state) => {
+        state.isSyncing = false;
+        state.lastSynced = new Date().toISOString();
+        state.error = null;
+      })
+      .addCase(syncCartWithServer.rejected, (state, action) => {
+        state.isSyncing = false;
+        state.error = action.error.message || 'Failed to sync cart';
+      });
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQuantity, clearCart, setCartItems } = cartSlice.actions;
 
 // Selectors
 export const selectCart = (state: RootState) => state.cart as CartState;
 export const selectCartItems = (state: RootState) => (state.cart as CartState).items;
 export const selectCartTotalItems = (state: RootState) => (state.cart as CartState).totalItems;
 export const selectCartTotalAmount = (state: RootState) => (state.cart as CartState).totalAmount;
+export const selectIsSyncing = (state: RootState) => (state.cart as CartState).isSyncing;
+export const selectLastSynced = (state: RootState) => (state.cart as CartState).lastSynced;
+export const selectCartError = (state: RootState) => (state.cart as CartState).error;
 
 export default cartSlice.reducer;

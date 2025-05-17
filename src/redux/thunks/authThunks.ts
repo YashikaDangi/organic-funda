@@ -10,6 +10,8 @@ export const signInWithGoogle = createAsyncThunk(
     dispatch(loginStart());
     try {
       const provider = new GoogleAuthProvider();
+      // App Check is automatically applied to all Firebase requests
+      
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       
@@ -37,6 +39,7 @@ export const signOutUser = createAsyncThunk(
   'auth/signOut',
   async (_, { dispatch }) => {
     try {
+      // App Check is automatically applied to all Firebase requests
       await signOut(auth);
       dispatch(logout());
       return { success: true };  // Return a serializable value

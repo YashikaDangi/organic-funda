@@ -96,6 +96,16 @@
     "@firebase/util" "1.11.1"
     tslib "^2.1.0"
 
+"@firebase/app-check@^0.9.3":
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/@firebase/app-check/-/app-check-0.9.3.tgz#84af92e6b28ed30848450d54e3ffd7e8ddb73759"
+  integrity sha512-jACDmeq5jEazWOojVr5lWwEe70slJfeCszsKL3TVyxGHMnXVBH5tJQme2DuMqhyZv36SVhh0zt6i3dB+lwhf7w==
+  dependencies:
+    "@firebase/component" "0.6.16"
+    "@firebase/logger" "0.4.4"
+    "@firebase/util" "1.11.3"
+    tslib "^2.1.0"
+
 "@firebase/app-compat@0.3.1":
   version "0.3.1"
   resolved "https://registry.npmjs.org/@firebase/app-compat/-/app-compat-0.3.1.tgz"
@@ -160,6 +170,14 @@
   integrity sha512-kf/zAT8GQJ9nYoHuj0mv7twp1QzifKYrO+GsmsVHHM+Hi9KkmI7E3B3J0CtihHpb34vinl4gbJrYJ2p2wfvc9A==
   dependencies:
     "@firebase/util" "1.11.1"
+    tslib "^2.1.0"
+
+"@firebase/component@0.6.16":
+  version "0.6.16"
+  resolved "https://registry.yarnpkg.com/@firebase/component/-/component-0.6.16.tgz#057b9a1b2998ad9eaf22a96fb95101f7d08e2675"
+  integrity sha512-whx+e3pgC3J9O6t4LOB8jiLk3tpWtnXaQ+xt/ys/4IGUPRI+nnWooVdtWrEnMga/gT03ug9SdEAEJLl6I1BIlg==
+  dependencies:
+    "@firebase/util" "1.11.3"
     tslib "^2.1.0"
 
 "@firebase/data-connect@0.3.5":
@@ -409,6 +427,13 @@
   version "1.11.1"
   resolved "https://registry.npmjs.org/@firebase/util/-/util-1.11.1.tgz"
   integrity sha512-RXg4WE8C2LUrvoV/TMGRTu223zZf9Dq9MR8yHZio9nF9TpLnpCPURw9VWWB2WATDl6HfIdWfl2x2SJYtHkN4hw==
+  dependencies:
+    tslib "^2.1.0"
+
+"@firebase/util@1.11.3":
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/@firebase/util/-/util-1.11.3.tgz#9ace94f5a2020112fed3baaee9a9d1b1f1569b37"
+  integrity sha512-4wYnOV9FpwdCq3rHQOCrdx4AQBUbfH1p2DhWGQxlQ+D3Xl/wSxc/HttcyPN4NNFiynxoNCFGWQH/zdhRfxP1Zg==
   dependencies:
     tslib "^2.1.0"
 
@@ -868,6 +893,11 @@
   dependencies:
     tslib "^2.4.0"
 
+"@types/lodash@^4.17.16":
+  version "4.17.16"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.17.16.tgz#94ae78fab4a38d73086e962d0b65c30d816bfb0a"
+  integrity sha512-HX7Em5NYQAXKW+1T+FiuG27NGwzJfCX3s1GjOa7ujxZa52kjJLOr4FUxT+giF6Tgxv1e+/czV/iTtBw27WTU9g==
+
 "@types/node@>=12.12.47", "@types/node@>=13.7.0", "@types/node@^20":
   version "20.17.46"
   resolved "https://registry.npmjs.org/@types/node/-/node-20.17.46.tgz"
@@ -1173,6 +1203,11 @@ lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
   integrity sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==
+
+lodash@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 long@^5.0.0:
   version "5.3.2"

@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow users to read and write only to their own cart documents
+    match /carts/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // For development - allow all authenticated users to access carts collection
+    // Remove this in production and use the more restrictive rule above
+    match /carts/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Default deny all access to other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
