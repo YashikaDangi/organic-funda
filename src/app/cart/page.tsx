@@ -1,16 +1,13 @@
 "use client";
 
 import React from "react";
-import { useAuth } from "@/context/AuthContext";
+import { useCart } from "@/hooks/useCart";
 
 const CartPage: React.FC = () => {
-  const { cart } = useAuth();
+  const { cart, updateQuantity, removeFromCart, totalAmount } = useCart();
 
-  const calculateTotal = () => {
-    return cart
-      .reduce((total, item) => total + item.price * item.quantity, 0)
-      .toFixed(2);
-  };
+  // We can use the totalAmount from Redux directly instead of calculating it here
+  const formattedTotal = totalAmount.toFixed(2);
 
   return (
     <div className="min-h-screen bg-[#EFEAE6] py-16 px-4 flex flex-col items-center">
@@ -18,23 +15,51 @@ const CartPage: React.FC = () => {
 
       {cart.length > 0 ? (
         <div className="w-full max-w-2xl bg-white border border-[#CFC5BA] rounded-xl shadow-lg p-6 space-y-6">
-          {cart.map((item, index) => (
+          {cart.map((item) => (
             <div
-              key={index}
-              className="flex justify-between items-center border-b border-[#E6E1DC] pb-4"
+              key={item.id}
+              className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-[#E6E1DC] pb-4 gap-4"
             >
               <div className="text-[#4B423A] font-medium">
-                {item.name} <span className="text-sm text-[#7A6D61]">(x{item.quantity})</span>
+                {item.name}
               </div>
-              <div className="text-[#0E1C4C] font-semibold">
-                ${(item.price * item.quantity).toFixed(2)}
+              
+              <div className="flex flex-col sm:flex-row items-end sm:items-center gap-4">
+                <div className="flex items-center border border-[#CFC5BA] rounded-lg overflow-hidden">
+                  <button 
+                    onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                    className="px-3 py-1 bg-[#EFEAE6] hover:bg-[#E6E1DC] text-[#4B423A]"
+                  >
+                    -
+                  </button>
+                  <span className="px-3 py-1 text-center w-10">{item.quantity}</span>
+                  <button 
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    className="px-3 py-1 bg-[#EFEAE6] hover:bg-[#E6E1DC] text-[#4B423A]"
+                  >
+                    +
+                  </button>
+                </div>
+                
+                <div className="text-[#0E1C4C] font-semibold min-w-[80px] text-right">
+                  ${(item.price * item.quantity).toFixed(2)}
+                </div>
+                
+                <button 
+                  onClick={() => removeFromCart(item.id)}
+                  className="text-[#7B1113] hover:text-[#921518] transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
               </div>
             </div>
           ))}
 
           <div className="flex justify-between items-center pt-4 border-t border-[#E6E1DC] text-lg font-bold text-[#0E1C4C]">
             <span>Total</span>
-            <span>${calculateTotal()}</span>
+            <span>${formattedTotal}</span>
           </div>
 
           <button className="w-full bg-[#7B1113] hover:bg-[#921518] text-white py-3 rounded-lg font-semibold transition duration-300">

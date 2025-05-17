@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import Header from "@/components/Header";
+import ReduxProvider from "@/redux/ReduxProvider";
+import CartSyncProvider from "@/components/CartSyncProvider";
 
 import { Pacifico } from "next/font/google";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -38,11 +40,15 @@ export default function RootLayout({
         className="font-sans"
       >
         
-        <AuthProvider>
-          {/* <Header/> */}
-          {children}
-          <WhatsAppButton/>
-        </AuthProvider>
+        <ReduxProvider>
+          <CartSyncProvider>
+            <AuthProvider>
+              {/* <Header/> */}
+              {children}
+              <WhatsAppButton/>
+            </AuthProvider>
+          </CartSyncProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

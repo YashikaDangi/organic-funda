@@ -1,14 +1,8 @@
 'use client';
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
+import React, { createContext, useContext, ReactNode } from 'react';
+import { useAuth as useReduxAuth } from '@/hooks/useAuth';
+import { useCart as useReduxCart } from '@/hooks/useCart';
+import { Product } from '@/redux/slices/cartSlice';
 
 interface AuthContextType {
   user: any;
@@ -26,6 +20,7 @@ interface AuthProviderProps {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Legacy hook for backward compatibility
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -34,67 +29,12 @@ export const useAuth = () => {
   return context;
 };
 
+// Provider that uses Redux under the hood
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<any>(null);
-  const [cart, setCart] = useState<Product[]>([]);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-      } else {
-        setUser(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  const login = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const logout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const addToCart = (product: Product) => {
-    const existingProductIndex = cart.findIndex((item) => item.id === product.id);
-
-    if (existingProductIndex !== -1) {
-      const updatedCart = [...cart];
-      updatedCart[existingProductIndex].quantity += 1;
-      setCart(updatedCart);
-    } else {
-      setCart([...cart, product]);
-    }
-  };
-
-  const updateQuantity = (productId: string, newQuantity: number) => {
-    if (newQuantity <= 0) {
-      removeFromCart(productId);
-    } else {
-      setCart((prevCart) =>
-        prevCart.map((product) =>
-          product.id === productId ? { ...product, quantity: newQuantity } : product
-        )
-      );
-    }
-  };
-
-  const removeFromCart = (productId: string) => {
-    setCart((prevCart) => prevCart.filter((product) => product.id !== productId));
-  };
-
+  // Use our new Redux hooks
+  const { user, login, logout } = useReduxAuth();
+  const { cart, addToCart, removeFromCart, updateQuantity } = useReduxCart();
+  
   return (
     <AuthContext.Provider
       value={{ user, cart, login, logout, addToCart, removeFromCart, updateQuantity }}

@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/hooks/useCart";
 import { UserIcon, ShoppingCartIcon } from "@heroicons/react/24/solid";
 
 const Header = () => {
-  const { user, login, logout, cart } = useAuth();
-  const cartItemCount =
-    cart?.reduce((acc, item) => acc + item.quantity, 0) || 0;
+  const { user, login, logout } = useAuth();
+  const { cart, totalItems: cartItemCount } = useCart();
 
   const [scrolled, setScrolled] = useState(false);
 
