@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
-import Header from "@/components/Header";
 import ReduxProvider from "@/redux/ReduxProvider";
 import CartSyncProvider from "@/components/CartSyncProvider";
 
@@ -43,7 +42,6 @@ export default function RootLayout({
         <ReduxProvider>
           <CartSyncProvider>
             <AuthProvider>
-              {/* <Header/> */}
               {children}
               <WhatsAppButton/>
             </AuthProvider>
