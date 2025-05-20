@@ -8,18 +8,19 @@ import { connectToDatabase } from "@/lib/mongodb";
 // Validate PayU configuration
 const validatePayUConfig = () => {
   const requiredEnvVars = [
-    "NEXT_PUBLIC_PAYU_MERCHANT_KEY",
-    "NEXT_PUBLIC_PAYU_SALT",
-    "NEXT_PUBLIC_PAYU_URL",
+    { name: "PAYU_MERCHANT_KEY", fallback: "NEXT_PUBLIC_PAYU_MERCHANT_KEY" },
+    { name: "PAYU_SALT", fallback: null }, // No fallback for salt - must be server-side
+    { name: "PAYU_MERCHANT_ID", fallback: null },
   ];
 
   const missingVars = requiredEnvVars.filter(
-    (varName) => !process.env[varName]
+    (varConfig) => !process.env[varConfig.name] && 
+                   (!varConfig.fallback || !process.env[varConfig.fallback])
   );
 
   if (missingVars.length > 0) {
     throw new Error(
-      `Missing required PayU configuration: ${missingVars.join(", ")}`
+      `Missing required PayU configuration: ${missingVars.map(v => v.name).join(", ")}`
     );
   }
 

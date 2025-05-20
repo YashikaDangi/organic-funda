@@ -82,12 +82,12 @@ export const createOrder = async (
   try {
     await connectToDatabase();
     
-    // Calculate order totals
+    // Calculate order totals - no tax or shipping fees as requested
     const subtotal = items.reduce((total, item) => total + (item.price * item.quantity), 0);
-    const tax = subtotal * 0.18; // 18% GST
-    const shippingCost = subtotal > 500 ? 0 : 50; // Free shipping over ₹500
+    const tax = 0; // No tax
+    const shippingCost = 0; // No shipping cost
     const discount = 0; // No discount by default
-    const total = subtotal + tax + shippingCost - discount;
+    const total = subtotal; // Total is just the subtotal of products
     
     // Create payment details
     const paymentDetails: PaymentDetails = {

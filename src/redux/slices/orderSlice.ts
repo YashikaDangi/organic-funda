@@ -3,7 +3,7 @@ import { RootState } from '../store';
 import { Order, OrderStatus, PaymentDetails, PaymentMethod, PaymentStatus } from '@/models/Order';
 import { Address } from '@/models/Address';
 import { Product } from './cartSlice';
-import { createOrder, updateOrderStatus, updatePaymentDetails, getOrderById, getUserOrders } from '@/services/orderService';
+import { createOrder, updateOrderStatus, updatePaymentDetails, getOrderById, getUserOrders } from '@/services/mongodb/clientOrderService';
 
 interface OrderState {
   orders: Order[];

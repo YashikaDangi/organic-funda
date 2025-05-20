@@ -14,14 +14,14 @@ const generateHash = (input: string): string => {
   }
 };
 
-// PayU payment service configuration
-const PAYU_MERCHANT_KEY = process.env.NEXT_PUBLIC_PAYU_MERCHANT_KEY;
-const PAYU_SALT = process.env.NEXT_PUBLIC_PAYU_SALT;
-const PAYU_MERCHANT_ID = process.env.PAYU_MERCHANT_ID;
-const PAYU_MODE = process.env.NEXT_PUBLIC_PAYU_MODE || 'production';
+// PayU payment service configuration - use server-side env vars
+const PAYU_MERCHANT_KEY = process.env.PAYU_MERCHANT_KEY || '5lTo8X'; // Use the exact value from .env
+const PAYU_SALT = process.env.PAYU_SALT || 'BAPi8VQVUsd2PG2w3iubewUrzxLqnTfu'; // Use the exact value from .env
+const PAYU_MERCHANT_ID = process.env.PAYU_MERCHANT_ID || '13051682'; // Use the exact value from .env
+const PAYU_MODE = 'production'; // Force production mode
 
 // PayU URL - use the one from environment or default to secure.payu.in
-const PAYU_URL = process.env.NEXT_PUBLIC_PAYU_URL || 'https://secure.payu.in';
+const PAYU_URL = process.env.PAYU_URL || 'https://secure.payu.in';
 
 // Interface for PayU payment request
 interface PayUPaymentRequest {
@@ -163,8 +163,9 @@ export const createPayUPaymentRequest = (order: Order, returnUrl: string): PayUP
       firstname: fullName,
       email,
       phone: phoneNumber,
-      surl: `${returnUrl}/success`,
-      furl: `${returnUrl}/failure`,
+      // Use absolute URLs for the callbacks to avoid path construction issues
+      surl: `http://localhost:3000/checkout/success?orderId=${order.id}`,
+      furl: `http://localhost:3000/checkout/failure?orderId=${order.id}`,
       hash,
       udf1: order.id,
       address1: addressLine1,

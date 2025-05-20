@@ -6,7 +6,7 @@ import {
   removeFromCart as removeFromCartAction, 
   updateQuantity as updateQuantityAction,
   clearCart as clearCartAction,
-  clearCartInServer,
+  clearCartInServerThunk,
   selectCartItems,
   selectCartTotalItems,
   selectCartTotalAmount,
@@ -43,9 +43,9 @@ export const useCart = () => {
   // Clear cart both locally and in Firestore
   const clearCart = () => {
     if (user?.uid) {
-      // If user is authenticated, clear cart in both local state and Firestore
+      // If user is authenticated, clear cart in both local state and MongoDB
       console.log('Clearing cart for user:', user.uid);
-      dispatch(clearCartInServer(user.uid));
+      dispatch(clearCartInServerThunk(user.uid));
     } else {
       // If not authenticated, just clear local cart
       console.log('Clearing local cart only (user not authenticated)');

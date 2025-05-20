@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { Address, AddressFormData } from '@/models/Address';
-import { addAddress, updateAddress, deleteAddress, getUserAddresses, getDefaultAddress } from '@/services/addressService';
+import { addAddress, updateAddress, deleteAddress, getUserAddresses, getDefaultAddress } from '@/services/mongodb/clientAddressService';
 
 interface AddressState {
   addresses: Address[];

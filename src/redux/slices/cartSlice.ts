@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { getCartItems, saveCartItems, clearCartInFirestore } from '@/services/cartService';
+import { getCartItems, saveCartItems, clearCartInServer as clearCartInMongoDB } from '@/services/mongodb/clientCartService';
 
 export interface Product {
   id: string;
@@ -62,9 +62,6 @@ export const syncCartWithServer = createAsyncThunk(
       // Always sync the cart, even if empty (to support cart clearing)
       await saveCartItems(userId, itemsCopy);
       
-      // Force a small delay before returning to allow Firestore to process
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
       return itemsCopy;
     } catch (error) {
       return rejectWithValue(error instanceof Error ? error.message : 'Failed to sync cart');
@@ -72,16 +69,16 @@ export const syncCartWithServer = createAsyncThunk(
   }
 );
 
-// Specific thunk for clearing the cart to ensure it's properly synced with Firestore
-export const clearCartInServer = createAsyncThunk(
+// Specific thunk for clearing the cart to ensure it's properly synced with MongoDB
+export const clearCartInServerThunk = createAsyncThunk(
   'cart/clearInServer',
   async (userId: string, { dispatch, rejectWithValue }) => {
     try {
       // First clear the local cart
       dispatch(clearCart());
       
-      // Use the dedicated function to clear cart in Firestore
-      await clearCartInFirestore(userId);
+      // Use the dedicated function to clear cart in MongoDB
+      await clearCartInMongoDB(userId);
       
       return true;
     } catch (error) {
@@ -181,6 +178,9 @@ export const cartSlice = createSlice({
 });
 
 export const { addToCart, removeFromCart, updateQuantity, clearCart, setCartItems } = cartSlice.actions;
+
+// Export clearCartInServerThunk as clearCartInServer for backward compatibility
+export const clearCartInServer = clearCartInServerThunk;
 
 // Selectors
 export const selectCart = (state: RootState) => state.cart as CartState;
