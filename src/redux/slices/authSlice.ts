@@ -56,5 +56,7 @@ export const { loginStart, loginSuccess, loginFailure, logout, clearError } = au
 export const selectAuth = (state: RootState) => state.auth as AuthState;
 export const selectUser = (state: RootState) => (state.auth as AuthState).user;
 export const selectIsAuthenticated = (state: RootState) => (state.auth as AuthState).isAuthenticated;
+export const selectLoading = (state: RootState) => (state.auth as AuthState).loading;
+export const selectError = (state: RootState) => (state.auth as AuthState).error;
 
 export default authSlice.reducer;

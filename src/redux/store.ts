@@ -4,17 +4,21 @@ import { PersistPartial } from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/lib/storage';
 import cartReducer from './slices/cartSlice';
 import authReducer from './slices/authSlice';
+import addressReducer from './slices/addressSlice';
+import orderReducer from './slices/orderSlice';
 import { loggerMiddleware } from './middleware/logger';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cart', 'auth'], // only persist these reducers
+  whitelist: ['cart', 'auth', 'address'], // only persist these reducers
 };
 
 const rootReducer = combineReducers({
   cart: cartReducer,
   auth: authReducer,
+  address: addressReducer,
+  order: orderReducer,
 });
 
 export type RootReducerState = ReturnType<typeof rootReducer>;
@@ -34,7 +38,11 @@ export const store = configureStore({
           'auth/signInWithGoogle/rejected',
           'auth/signOut/pending',
           'auth/signOut/fulfilled',
-          'auth/signOut/rejected'
+          'auth/signOut/rejected',
+          'address/fetchUserAddresses/fulfilled',
+          'address/addUserAddress/fulfilled',
+          'order/createUserOrder/fulfilled',
+          'order/updateOrderPaymentDetails/fulfilled'
         ],
       },
     }).concat(loggerMiddleware),

@@ -6,9 +6,29 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
     
-    // For development - allow all authenticated users to access carts collection
-    // Remove this in production and use the more restrictive rule above
+    // Allow users to read and write only to their own addresses
+    match /addresses/{addressId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+    
+    // Allow users to read and write only to their own orders
+    match /orders/{orderId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+    
+    // For development - allow all authenticated users to access collections
+    // Remove this in production and use the more restrictive rules above
     match /carts/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    
+    match /addresses/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    
+    match /orders/{document=**} {
       allow read, write: if request.auth != null;
     }
     

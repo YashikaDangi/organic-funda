@@ -1,13 +1,27 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/hooks/useCart";
+import { useAuth } from "@/hooks/useAuth";
 
 const CartPage: React.FC = () => {
+  const router = useRouter();
   const { cart, updateQuantity, removeFromCart, totalAmount } = useCart();
+  const { isAuthenticated } = useAuth();
+  const [isClient, setIsClient] = useState(false);
+
+  // Client-side only rendering to prevent hydration errors
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // We can use the totalAmount from Redux directly instead of calculating it here
   const formattedTotal = totalAmount.toFixed(2);
+  
+  const handleCheckout = () => {
+    router.push('/checkout');
+  };
 
   return (
     <div className="min-h-screen bg-[#EFEAE6] py-16 px-4 flex flex-col items-center">
@@ -62,14 +76,30 @@ const CartPage: React.FC = () => {
             <span>${formattedTotal}</span>
           </div>
 
-          <button className="w-full bg-[#7B1113] hover:bg-[#921518] text-white py-3 rounded-lg font-semibold transition duration-300">
+          <button 
+            onClick={handleCheckout}
+            disabled={cart.length === 0}
+            className={`w-full ${cart.length === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#7B1113] hover:bg-[#921518]'} text-white py-3 rounded-lg font-semibold transition duration-300`}
+          >
             Proceed to Checkout
           </button>
+          
+          {isClient && !isAuthenticated && cart.length > 0 && (
+            <p className="mt-3 text-sm text-[#4B423A] text-center">
+              You'll need to sign in to complete your purchase.
+            </p>
+          )}
         </div>
       ) : (
         <div className="text-center mt-24 text-[#4B423A] text-lg">
           <p className="text-2xl mb-2">🛒</p>
           <p>Your cart is currently empty.</p>
+          <button 
+            onClick={() => router.push('/')}
+            className="mt-6 px-6 py-2 bg-[#0E1C4C] hover:bg-[#1A2C5C] text-white rounded-lg font-medium transition duration-300"
+          >
+            Continue Shopping
+          </button>
         </div>
       )}
     </div>

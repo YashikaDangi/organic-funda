@@ -1,9 +1,9 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { selectUser, selectIsAuthenticated } from '@/redux/slices/authSlice';
-import { signInWithGoogle, signOutUser } from '@/redux/thunks/authThunks';
-import { useEffect } from 'react';
+import { selectUser, selectIsAuthenticated, selectLoading, selectError, clearError } from '@/redux/slices/authSlice';
+import { signInWithGoogle as signInWithGoogleThunk, signOutUser } from '@/redux/thunks/authThunks';
+import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { loginSuccess, logout } from '@/redux/slices/authSlice';
@@ -12,6 +12,8 @@ export const useAuth = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const loading = useAppSelector(selectLoading);
+  const error = useAppSelector(selectError);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -30,11 +32,12 @@ export const useAuth = () => {
     return () => unsubscribe();
   }, [dispatch]);
 
-  const login = async () => {
+  const signInWithGoogle = async () => {
     try {
-      await dispatch(signInWithGoogle()).unwrap();
+      return await dispatch(signInWithGoogleThunk()).unwrap();
     } catch (error) {
       console.error('Login error:', error);
+      throw error;
     }
   };
 
@@ -43,13 +46,21 @@ export const useAuth = () => {
       await dispatch(signOutUser()).unwrap();
     } catch (error) {
       console.error('Logout error:', error);
+      throw error;
     }
+  };
+  
+  const handleClearError = () => {
+    dispatch(clearError());
   };
 
   return {
     user,
     isAuthenticated,
-    login,
-    logout: logoutUser
+    loading,
+    error,
+    signInWithGoogle,
+    logout: logoutUser,
+    clearError: handleClearError
   };
 };
