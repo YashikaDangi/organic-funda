@@ -6,10 +6,14 @@ import { updateOrderStatus as updateOrderStatusInDB } from '@/services/mongodb/s
 // PUT handler for updating order status
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { orderId: string } }
+  { params }: { params: Promise<{ orderId: string }> }
 ) {
+  // Extract orderId outside try/catch to use in error logging
+  let orderId: string | null = null;
+  
   try {
-    const orderId = params.orderId;
+    const paramsData = await params;
+    orderId = paramsData.orderId;
     const body = await request.json();
     const { status } = body;
     

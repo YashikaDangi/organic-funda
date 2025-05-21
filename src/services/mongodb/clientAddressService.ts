@@ -27,7 +27,7 @@ export const addAddress = async (userId: string, addressData: AddressFormData): 
     
     return await response.json();
   } catch (error) {
-    logger.address.error('Error adding address:', error);
+    logger.db.error('Error adding address:', error);
     throw error;
   }
 };
@@ -53,7 +53,7 @@ export const updateAddress = async (addressId: string, addressData: Partial<Addr
     
     return await response.json();
   } catch (error) {
-    logger.address.error('Error updating address:', error);
+    logger.db.error('Error updating address:', error);
     throw error;
   }
 };
@@ -75,7 +75,7 @@ export const deleteAddress = async (addressId: string): Promise<boolean> => {
     
     return true;
   } catch (error) {
-    logger.address.error('Error deleting address:', error);
+    logger.db.error('Error deleting address:', error);
     throw error;
   }
 };
@@ -100,7 +100,7 @@ export const getUserAddresses = async (userId: string): Promise<Address[]> => {
     
     return await response.json();
   } catch (error) {
-    logger.address.error('Error fetching addresses:', error);
+    logger.db.error('Error fetching addresses:', error);
     return [];
   }
 };
@@ -125,7 +125,7 @@ export const getAddressById = async (addressId: string): Promise<Address | null>
     
     return await response.json();
   } catch (error) {
-    logger.address.error('Error fetching address:', error);
+    logger.db.error('Error fetching address:', error);
     return null;
   }
 };
@@ -150,7 +150,7 @@ export const getDefaultAddress = async (userId: string): Promise<Address | null>
     
     return await response.json();
   } catch (error) {
-    logger.address.error('Error fetching default address:', error);
+    logger.db.error('Error fetching default address:', error);
     return null;
   }
 };

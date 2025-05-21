@@ -32,12 +32,12 @@ export const useAuth = () => {
 // Provider that uses Redux under the hood
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Use our new Redux hooks
-  const { user, login, logout } = useReduxAuth();
+  const { user, signInWithGoogle, logout } = useReduxAuth();
   const { cart, addToCart, removeFromCart, updateQuantity } = useReduxCart();
   
   return (
     <AuthContext.Provider
-      value={{ user, cart, login, logout, addToCart, removeFromCart, updateQuantity }}
+      value={{ user, cart, login: signInWithGoogle, logout, addToCart, removeFromCart, updateQuantity }}
     >
       {children}
     </AuthContext.Provider>

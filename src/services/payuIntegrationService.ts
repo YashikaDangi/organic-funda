@@ -1,9 +1,9 @@
 'use client';
 
-import { Order, PaymentStatus } from '@/models/Order';
+import { Order, OrderStatus, PaymentStatus } from '@/models/Order';
 import { logger } from '@/utils/logger';
 import { createPayUPaymentRequest, verifyPayUPaymentResponse } from './paymentService';
-import { updateOrderStatus, updatePaymentDetails } from './orderService';
+import { updateOrderStatus, updatePaymentDetails } from './mongodb/orderService';
 
 /**
  * PayU Integration Service
@@ -24,7 +24,7 @@ export const payuIntegrationService = {
       const paymentRequest = createPayUPaymentRequest(order, returnUrl);
       
       // Update order status to payment pending
-      await updateOrderStatus(order.id!, 'PAYMENT_PENDING');
+      await updateOrderStatus(order.id!, OrderStatus.PAYMENT_PENDING);
       
       return {
         success: true,

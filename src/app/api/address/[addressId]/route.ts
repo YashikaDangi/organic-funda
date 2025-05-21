@@ -10,10 +10,12 @@ import { logger } from '@/utils/logger';
 // GET handler for fetching a single address
 export async function GET(
   request: NextRequest,
-  { params }: { params: { addressId: string } }
 ) {
   try {
-    const addressId = params.addressId;
+    // Extract addressId from the URL
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/');
+    const addressId = pathParts[pathParts.length - 1];
     
     if (!addressId) {
       return NextResponse.json(
@@ -49,10 +51,12 @@ export async function GET(
 // PUT handler for updating an address
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { addressId: string } }
 ) {
   try {
-    const addressId = params.addressId;
+    // Extract addressId from the URL
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/');
+    const addressId = pathParts[pathParts.length - 1];
     const body = await request.json();
     
     if (!addressId) {
@@ -82,10 +86,12 @@ export async function PUT(
 // DELETE handler for deleting an address
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { addressId: string } }
 ) {
   try {
-    const addressId = params.addressId;
+    // Extract addressId from the URL
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/');
+    const addressId = pathParts[pathParts.length - 1];
     
     if (!addressId) {
       return NextResponse.json(

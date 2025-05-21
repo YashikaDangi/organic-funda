@@ -1,19 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useOrder } from '@/hooks/useOrder';
 import { Order, OrderStatus } from '@/models/Order';
 
-interface OrderDetailsPageProps {
-  params: {
-    orderId: string;
-  };
-}
-
-const OrderDetailsPage: React.FC<OrderDetailsPageProps> = ({ params }) => {
-  const { orderId } = params;
+const OrderDetailsPage = () => {
+  // Use the useParams hook to get the orderId
+  const params = useParams();
+  const orderId = params?.orderId as string;
   const router = useRouter();
   const { user, isAuthenticated } = useAuth();
   const { getOrderById, loading } = useOrder();

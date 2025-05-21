@@ -8,11 +8,14 @@ import { logger } from '@/utils/logger';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { orderId: string } }
+  { params }: { params: Promise<{ orderId: string }> }
 ) {
+  // Extract orderId outside try/catch to use in error logging
+  let orderId: string | null = null;
+  
   try {
-    // Get orderId from params
-    const orderId = params.orderId;
+    const paramsData = await params;
+    orderId = paramsData.orderId;
     
     if (!orderId) {
       return NextResponse.json(
@@ -34,7 +37,6 @@ export async function GET(
       );
     }
     
-    // Return order data
     return NextResponse.json({
       success: true,
       order
@@ -42,7 +44,7 @@ export async function GET(
   } catch (error: any) {
     logger.order.error('Error fetching order', {
       error: error.message,
-      orderId: params.orderId
+      orderId: orderId || 'unknown'
     });
     
     return NextResponse.json(

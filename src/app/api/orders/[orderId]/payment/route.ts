@@ -6,10 +6,13 @@ import { updatePaymentDetails as updatePaymentDetailsInDB } from '@/services/mon
 // PUT handler for updating payment details
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { orderId: string } }
 ) {
   try {
-    const orderId = params.orderId;
+    // Extract orderId from the URL
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/');
+    const orderId = pathParts[pathParts.length - 2]; // Since the path is /api/orders/[orderId]/payment
+    
     const body = await request.json();
     const { paymentDetails } = body;
     
@@ -29,12 +32,22 @@ export async function PUT(
     
     // Connect to MongoDB
     await connectToDatabase();
-    logger.db.info("Connected to MongoDB for payment details update");
+    logger.db.info("Connected to MongoDB for payment update");
     
     // Update payment details
-    const updatedOrder = await updatePaymentDetailsInDB(orderId, paymentDetails);
+    const result = await updatePaymentDetailsInDB(orderId, paymentDetails);
     
-    return NextResponse.json({ success: true, data: updatedOrder });
+    if (!result) {
+      return NextResponse.json(
+        { error: 'Failed to update payment details', success: false },
+        { status: 500 }
+      );
+    }
+    
+    return NextResponse.json({ 
+      success: true, 
+      message: 'Payment details updated successfully' 
+    });
   } catch (error) {
     logger.db.error("Error updating payment details", { error });
     return NextResponse.json(
