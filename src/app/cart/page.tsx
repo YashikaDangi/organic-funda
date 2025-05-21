@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
+import Link from "next/link";
 
 const CartPage: React.FC = () => {
   const router = useRouter();
@@ -25,17 +26,32 @@ const CartPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#EFEAE6] py-16 px-4 flex flex-col items-center">
-      <h1 className="text-4xl font-bold text-[#0E1C4C] mb-10">Your Cart</h1>
+      <div className="w-full max-w-2xl flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold text-[#0E1C4C]">Your Cart</h1>
+        {/* <Link href="/" className="flex items-center gap-2 px-4 py-2 bg-[#0E1C4C] hover:bg-[#1A2C5C] text-white rounded-lg font-medium transition duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7m-7-7v14" />
+          </svg>
+          Home
+        </Link> */}
+      </div>
 
       {cart.length > 0 ? (
-        <div className="w-full max-w-2xl bg-white border border-[#CFC5BA] rounded-xl shadow-lg p-6 space-y-6">
+        <div className="w-full max-w-2xl bg-white border border-[#CFC5BA] rounded-xl shadow-lg p-6 space-y-6 transition-all duration-300 hover:shadow-xl">
           {cart.map((item) => (
             <div
               key={item.id}
               className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-[#E6E1DC] pb-4 gap-4"
             >
-              <div className="text-[#4B423A] font-medium">
-                {item.name}
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-[#F5F2EF] rounded-md flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#0E1C4C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                  </svg>
+                </div>
+                <div className="text-[#4B423A] font-medium">
+                  {item.name}
+                </div>
               </div>
               
               <div className="flex flex-col sm:flex-row items-end sm:items-center gap-4">
@@ -71,18 +87,32 @@ const CartPage: React.FC = () => {
             </div>
           ))}
 
-          <div className="flex justify-between items-center pt-4 border-t border-[#E6E1DC] text-lg font-bold text-[#0E1C4C]">
-            <span>Total</span>
-            <span>${formattedTotal}</span>
+          <div className="mt-6 pt-4 border-t border-[#E6E1DC]">
+            <div className="flex justify-between items-center text-lg font-bold text-[#0E1C4C]">
+              <span>Total</span>
+              <span>${formattedTotal}</span>
+            </div>
           </div>
 
-          <button 
-            onClick={handleCheckout}
-            disabled={cart.length === 0}
-            className={`w-full ${cart.length === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#7B1113] hover:bg-[#921518]'} text-white py-3 rounded-lg font-semibold transition duration-300`}
-          >
-            Proceed to Checkout
-          </button>
+          <div className="flex flex-col gap-3 mt-6">
+            <button 
+              onClick={handleCheckout}
+              disabled={cart.length === 0}
+              className={`w-full ${cart.length === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#7B1113] hover:bg-[#921518]'} text-white py-3 rounded-lg font-semibold transition duration-300 flex items-center justify-center gap-2`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+              Proceed to Checkout
+            </button>
+            
+            <Link href="/" className="w-full text-center py-3 border border-[#0E1C4C] text-[#0E1C4C] rounded-lg font-semibold hover:bg-[#F5F2EF] transition duration-300 flex items-center justify-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Continue Shopping
+            </Link>
+          </div>
           
           {isClient && !isAuthenticated && cart.length > 0 && (
             <p className="mt-3 text-sm text-[#4B423A] text-center">
@@ -91,15 +121,20 @@ const CartPage: React.FC = () => {
           )}
         </div>
       ) : (
-        <div className="text-center mt-24 text-[#4B423A] text-lg">
-          <p className="text-2xl mb-2">🛒</p>
-          <p>Your cart is currently empty.</p>
-          <button 
-            onClick={() => router.push('/')}
-            className="mt-6 px-6 py-2 bg-[#0E1C4C] hover:bg-[#1A2C5C] text-white rounded-lg font-medium transition duration-300"
-          >
-            Continue Shopping
-          </button>
+        <div className="text-center mt-16 text-[#4B423A] text-lg bg-white p-10 rounded-xl shadow-lg border border-[#CFC5BA] max-w-md mx-auto">
+          <div className="w-24 h-24 bg-[#F5F2EF] rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-[#0E1C4C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-[#0E1C4C] mb-2">Your cart is empty</h2>
+          <p className="mb-8">Looks like you haven't added any products to your cart yet.</p>
+          <Link href="/" className="px-6 py-3 bg-[#0E1C4C] hover:bg-[#1A2C5C] text-white rounded-lg font-medium transition duration-300 inline-flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Browse Products
+          </Link>
         </div>
       )}
     </div>

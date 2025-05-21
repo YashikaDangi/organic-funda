@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FaInstagram, FaTwitter, FaLeaf } from "react-icons/fa";
+import { GiMushroomGills } from "react-icons/gi";
 
 export default function Footer() {
   return (
@@ -8,7 +9,7 @@ export default function Footer() {
         {/* Logo & Tagline */}
         <div>
           <div className="flex items-center gap-2 text-2xl font-bold text-green-100">
-            <FaLeaf className="text-[#C9E265]" />
+            <GiMushroomGills className="" />
             <span className="font-pacifico">OrganicFunda</span>
           </div>
           <p className="text-sm mt-3 text-green-100/70">
@@ -20,10 +21,26 @@ export default function Footer() {
         <div>
           <h4 className="text-lg font-semibold text-[#C9E265] mb-4">Explore</h4>
           <ul className="space-y-2 text-sm text-green-100/80">
-            <li><Link href="/about" className="hover:text-white transition">About Us</Link></li>
-            <li><Link href="/types" className="hover:text-white transition">Types of Mushrooms</Link></li>
-            <li><Link href="/shop" className="hover:text-white transition">Shop</Link></li>
-            <li><Link href="/contact" className="hover:text-white transition">Contact</Link></li>
+            <li>
+              <Link href="/about" className="hover:text-white transition">
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link href="/types" className="hover:text-white transition">
+                Types of Mushrooms
+              </Link>
+            </li>
+            <li>
+              <Link href="/shop" className="hover:text-white transition">
+                Shop
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className="hover:text-white transition">
+                Contact
+              </Link>
+            </li>
           </ul>
         </div>
 

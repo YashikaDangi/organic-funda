@@ -94,9 +94,9 @@ const Hero = () => {
           {/* Text Content */}
           <div>
             <h1 className="text-4xl md:text-5xl font-bold text-[#183E2D] leading-snug">
-              From{" "}
+            From Our Farm{" "}
               <span className="relative inline-block">
-                <span className="z-10 relative">fresh produce</span>
+                <span className="z-10 relative">  to Your Plate </span>
                 <svg
                   className="absolute left-0 bottom-0 w-full h-3 z-0"
                   viewBox="0 0 200 20"
@@ -110,7 +110,7 @@ const Hero = () => {
                   />
                 </svg>
               </span>{" "}
-              to daily essentials, shop smarter!
+              — Sustainably Grown, Rich in Flavor.
             </h1>
           </div>
 

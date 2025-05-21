@@ -5,19 +5,11 @@ import { Product } from '@/redux/slices/cartSlice';
 
 interface OrderSummaryProps {
   items: Product[];
-  subtotal: number;
-  tax: number;
-  shippingCost: number;
-  discount: number;
   total: number;
 }
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
   items,
-  subtotal,
-  tax,
-  shippingCost,
-  discount,
   total
 }) => {
   return (
@@ -36,29 +28,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         ))}
       </div>
       
-      <div className="border-t border-[#E6E1DC] pt-3 space-y-2">
-        <div className="flex justify-between text-[#4B423A]">
-          <span>Subtotal</span>
-          <span>₹{subtotal.toFixed(2)}</span>
-        </div>
-        
-        <div className="flex justify-between text-[#4B423A]">
-          <span>Tax (18% GST)</span>
-          <span>₹{tax.toFixed(2)}</span>
-        </div>
-        
-        <div className="flex justify-between text-[#4B423A]">
-          <span>Shipping</span>
-          <span>{shippingCost === 0 ? 'Free' : `₹${shippingCost.toFixed(2)}`}</span>
-        </div>
-        
-        {discount > 0 && (
-          <div className="flex justify-between text-green-600">
-            <span>Discount</span>
-            <span>-₹{discount.toFixed(2)}</span>
-          </div>
-        )}
-      </div>
+
       
       <div className="border-t border-[#E6E1DC] pt-3">
         <div className="flex justify-between font-bold text-lg text-[#0E1C4C]">

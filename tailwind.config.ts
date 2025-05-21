@@ -4,7 +4,12 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
+        heading: ['"Playfair Display"', 'serif'],
         pacifico: ['var(--font-pacifico)', 'cursive'],
+      },
+      colors: {
+        forest: '#264A33',
+        accent: '#BFD88F', // underline color
       },
     },
   },

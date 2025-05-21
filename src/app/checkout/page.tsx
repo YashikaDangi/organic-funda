@@ -56,12 +56,8 @@ const CheckoutPage: React.FC = () => {
     }
   }, [defaultAddress, addresses]);
 
-  // Calculate order totals
-  const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-  const tax = subtotal * 0.18; // 18% GST
-  const shippingCost = subtotal > 500 ? 0 : 50; // Free shipping over u20b9500
-  const discount = 0; // No discount by default
-  const total = subtotal + tax + shippingCost - discount;
+  // Calculate order total
+  const total = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
 
   const handleAddressSubmit = async (addressData: AddressFormData) => {
     if (!user?.uid) return;
@@ -254,10 +250,6 @@ const CheckoutPage: React.FC = () => {
           <div className="lg:col-span-1">
             <OrderSummary 
               items={cart}
-              subtotal={subtotal}
-              tax={tax}
-              shippingCost={shippingCost}
-              discount={discount}
               total={total}
             />
           </div>
