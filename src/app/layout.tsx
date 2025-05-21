@@ -7,6 +7,7 @@ import CartSyncProvider from "@/components/CartSyncProvider";
 
 import { Pacifico } from "next/font/google";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import Header from "@/components/Header";
 
 const pacifico = Pacifico({
   weight: "400",
@@ -42,7 +43,8 @@ export default function RootLayout({
         <ReduxProvider>
           <CartSyncProvider>
             <AuthProvider>
-              {children}
+              <Header />
+              <div className="pt-16">{children}</div>
               <WhatsAppButton/>
             </AuthProvider>
           </CartSyncProvider>

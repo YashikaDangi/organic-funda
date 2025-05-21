@@ -132,21 +132,12 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Items ({calculateOrderSummary().itemCount}):</span>
-                    <span className="font-medium">₹{calculateOrderSummary().subtotal.toFixed(2)}</span>
+                    <span className="font-medium text-black">₹{calculateOrderSummary().subtotal.toFixed(2)}</span>
                   </div>
                   
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Tax (5%):</span>
-                    <span className="font-medium">₹{calculateOrderSummary().tax.toFixed(2)}</span>
-                  </div>
-                  
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Shipping:</span>
-                    <span className="font-medium">₹{calculateOrderSummary().shipping.toFixed(2)}</span>
-                  </div>
                   
                   <div className="flex justify-between pt-2 border-t border-gray-100 font-bold">
-                    <span>Total:</span>
+                    <span className='text-black'>Total:</span>
                     <span className="text-[#7B1113]">₹{calculateOrderSummary().total.toFixed(2)}</span>
                   </div>
                 </div>
@@ -175,7 +166,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
                     </svg>
                   </div>
                   <div>
-                    <p className="font-medium">PayU Payment Gateway</p>
+                    <p className="font-medium text-black">PayU Payment Gateway</p>
                     <p className="text-sm text-gray-500">Secure online payment</p>
                   </div>
                 </div>

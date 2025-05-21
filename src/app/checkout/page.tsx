@@ -71,34 +71,7 @@ const CheckoutPage: React.FC = () => {
     }
   };
 
-  const handleProceedToPayment = async () => {
-    if (!user?.uid || !selectedAddress) return;
-    
-    try {
-      // Create the order
-      const newOrder = await createOrder(
-        user.uid,
-        cart,
-        selectedAddress,
-        undefined, // Use same address for billing
-        PaymentMethod.PAYU
-      );
-      
-      setOrder(newOrder);
-      setStep('payment');
-      
-      // Initiate payment using our new payment service
-      const returnUrl = `${window.location.origin}/checkout/payment-result`;
-      const paymentData = await initiatePayment(selectedAddress, undefined);
-      
-      if (paymentData) {
-        // Payment initiated successfully, the form will be auto-submitted
-        console.log('Payment initiated successfully', paymentData);
-      }
-    } catch (error) {
-      console.error('Error initiating payment:', error);
-    }
-  };
+
 
   if (!isClient || !isAuthenticated) {
     return (
