@@ -163,9 +163,9 @@ export const createPayUPaymentRequest = (order: Order, returnUrl: string): PayUP
       firstname: fullName,
       email,
       phone: phoneNumber,
-      // Use absolute URLs for the callbacks to avoid path construction issues
-      surl: `http://localhost:3000/checkout/success?orderId=${order.id}`,
-      furl: `http://localhost:3000/checkout/failure?orderId=${order.id}`,
+      // Use absolute URLs for API routes to handle POST requests from PayU
+      surl: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/checkout/success`,
+      furl: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/checkout/failure`,
       hash,
       udf1: order.id,
       address1: addressLine1,

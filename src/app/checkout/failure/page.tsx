@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FaTimesCircle, FaShoppingCart, FaHome, FaExclamationTriangle } from 'react-icons/fa';
 import { logger } from '@/utils/logger';
+import { headers } from 'next/headers';
 
 const CheckoutFailurePage = () => {
   const router = useRouter();
@@ -12,13 +13,62 @@ const CheckoutFailurePage = () => {
   
   const [orderDetails, setOrderDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [paymentError, setPaymentError] = useState<string>('Payment was not successful');
+  const [paymentErrorCode, setPaymentErrorCode] = useState<string | null>(null);
+  const [transactionId, setTransactionId] = useState<string | null>(null);
+  const [paymentOrderId, setPaymentOrderId] = useState<string | null>(null);
 
+  // Get parameters from URL
   const orderId = searchParams.get('orderId');
   const txnId = searchParams.get('txnid');
-  const errorMessage = searchParams.get('error_Message') || 'Payment was not successful';
+  const errorMessage = searchParams.get('error_Message');
   const errorCode = searchParams.get('error_Code');
   
   useEffect(() => {
+    // Set payment details from URL parameters
+    if (errorMessage) setPaymentError(errorMessage);
+    if (errorCode) setPaymentErrorCode(errorCode);
+    if (txnId) setTransactionId(txnId);
+    if (orderId) setPaymentOrderId(orderId);
+    
+    // Handle POST requests from PayU
+    const handlePostData = async () => {
+      try {
+        // This is a client-side component, so we can't access the POST body directly
+        // Instead, we'll redirect to our API route which can handle the POST request
+        if (!orderId && !txnId && !errorMessage) {
+          // If we don't have any parameters, this might be a direct POST from PayU
+          // Redirect to our API route to handle it properly
+          const currentUrl = window.location.href;
+          const apiUrl = currentUrl.replace('/checkout/failure', '/api/checkout/failure');
+          
+          logger.payment.info('Redirecting POST request to API route', { from: currentUrl, to: apiUrl });
+          
+          // Use fetch to forward the request to our API route
+          const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          
+          if (response.ok) {
+            // Our API will handle the payment and redirect back here with proper parameters
+            // No need to do anything else
+            logger.payment.info('Successfully redirected to API route');
+          } else {
+            logger.payment.error('Failed to redirect to API route', { status: response.status });
+            setPaymentError('Failed to process payment response');
+          }
+        }
+      } catch (error: any) {
+        logger.payment.error('Error handling POST data', { error: error.message });
+        setPaymentError('Error processing payment: ' + error.message);
+      }
+    };
+    
+    handlePostData();
+    
     // Fetch order details if orderId is available
     const fetchOrderDetails = async () => {
       if (!orderId) {

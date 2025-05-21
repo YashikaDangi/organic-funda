@@ -19,6 +19,7 @@ const CheckoutSuccessPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Get parameters from URL
   const orderId = searchParams.get('orderId');
   const txnId = searchParams.get('txnid');
   const amount = searchParams.get('amount');
@@ -29,6 +30,44 @@ const CheckoutSuccessPage = () => {
     if (user?.uid && status === 'success') {
       dispatch(clearCart());
     }
+    
+    // Handle POST requests from PayU
+    const handlePostData = async () => {
+      try {
+        // This is a client-side component, so we can't access the POST body directly
+        // Instead, we'll redirect to our API route which can handle the POST request
+        if (!orderId && !txnId) {
+          // If we don't have any parameters, this might be a direct POST from PayU
+          // Redirect to our API route to handle it properly
+          const currentUrl = window.location.href;
+          const apiUrl = currentUrl.replace('/checkout/success', '/api/checkout/success');
+          
+          logger.payment.info('Redirecting POST request to API route', { from: currentUrl, to: apiUrl });
+          
+          // Use fetch to forward the request to our API route
+          const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          
+          if (response.ok) {
+            // Our API will handle the payment and redirect back here with proper parameters
+            // No need to do anything else
+            logger.payment.info('Successfully redirected to API route');
+          } else {
+            logger.payment.error('Failed to redirect to API route', { status: response.status });
+            setError('Failed to process payment response');
+          }
+        }
+      } catch (error: any) {
+        logger.payment.error('Error handling POST data', { error: error.message });
+        setError('Error processing payment: ' + error.message);
+      }
+    };
+    
+    handlePostData();
     
     // Fetch order details if orderId is available
     const fetchOrderDetails = async () => {
