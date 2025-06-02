@@ -96,7 +96,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
       <button
         onClick={handleShowSummary}
         disabled={isDisabled || loading}
-        className={`w-full py-3 px-4 rounded-lg font-semibold text-white ${isDisabled || loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#7B1113] hover:bg-[#921518]'} transition-colors ${className}`}
+        className={`w-full py-3 px-4 rounded-lg font-semibold text-white ${isDisabled || loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-secondary hover:bg-secondary-dark'} transition-all duration-300 shadow-md hover:shadow-lg ${className}`}
       >
         {loading ? (
           <span className="flex items-center justify-center">
@@ -113,7 +113,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
       
       {/* Error Message */}
       {(error || localError) && (
-        <div className="mt-2 p-2 bg-red-100 text-red-700 text-sm rounded">
+        <div className="mt-2 p-3 bg-red-100/50 text-secondary border border-secondary/20 text-sm rounded-lg">
           {error || localError}
         </div>
       )}

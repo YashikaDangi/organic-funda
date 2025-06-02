@@ -75,40 +75,49 @@ const CheckoutPage: React.FC = () => {
 
   if (!isClient || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#EFEAE6] py-16 px-4 flex flex-col items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#7B1113]"></div>
-        <p className="mt-4 text-[#4B423A]">Loading...</p>
+      <div className="min-h-screen bg-gradient-to-b from-primary-light/10 to-white py-20 px-4 flex flex-col items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary"></div>
+        <p className="mt-4 text-primary-dark font-medium">Loading...</p>
       </div>
     );
   }
 
   if (cart.length === 0) {
     return (
-      <div className="min-h-screen bg-[#EFEAE6] py-16 px-4 flex flex-col items-center justify-center">
-        <p className="text-[#4B423A] text-lg">Your cart is empty.</p>
+      <div className="min-h-screen bg-gradient-to-b from-primary-light/10 to-white py-20 px-4 flex flex-col items-center justify-center">
+        <div className="text-center p-8 bg-white rounded-xl shadow-lg border border-primary/10 max-w-md">
+          <h2 className="text-2xl font-bold text-primary-dark mb-4 font-heading">Your cart is empty</h2>
+          <p className="text-primary-dark/80 mb-6">Please add some products to your cart before checkout.</p>
+          <a href="/" className="px-6 py-3 bg-secondary hover:bg-secondary-dark text-white rounded-lg font-medium transition-all duration-300 inline-flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Browse Products
+          </a>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#EFEAE6] py-16 px-4">
+    <div className="min-h-screen bg-gradient-to-b from-primary-light/10 to-white py-20 px-4">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-[#0E1C4C] mb-10 text-center">Checkout</h1>
+        <h1 className="text-4xl font-bold text-primary-dark mb-10 text-center font-heading">Checkout</h1>
 
         {/* Checkout Steps */}
         <div className="flex justify-center mb-10">
           <div className="flex items-center">
-            <div className={`rounded-full h-10 w-10 flex items-center justify-center ${step === 'address' ? 'bg-[#7B1113] text-white' : 'bg-[#CFC5BA] text-[#4B423A]'}`}>
+            <div className={`rounded-full h-10 w-10 flex items-center justify-center ${step === 'address' ? 'bg-secondary text-white' : 'bg-primary-light/20 text-primary-dark'}`}>
               1
             </div>
-            <div className={`text-sm ml-2 ${step === 'address' ? 'text-[#7B1113] font-semibold' : 'text-[#4B423A]'}`}>Shipping Address</div>
+            <div className={`text-sm ml-2 ${step === 'address' ? 'text-secondary font-semibold' : 'text-primary-dark'}`}>Shipping Address</div>
           </div>
-          <div className="mx-4 border-t border-[#CFC5BA] w-20 mt-5"></div>
+          <div className="mx-4 border-t border-primary/20 w-20 mt-5"></div>
           <div className="flex items-center">
-            <div className={`rounded-full h-10 w-10 flex items-center justify-center ${step === 'payment' ? 'bg-[#7B1113] text-white' : 'bg-[#CFC5BA] text-[#4B423A]'}`}>
+            <div className={`rounded-full h-10 w-10 flex items-center justify-center ${step === 'payment' ? 'bg-secondary text-white' : 'bg-primary-light/20 text-primary-dark'}`}>
               2
             </div>
-            <div className={`text-sm ml-2 ${step === 'payment' ? 'text-[#7B1113] font-semibold' : 'text-[#4B423A]'}`}>Payment</div>
+            <div className={`text-sm ml-2 ${step === 'payment' ? 'text-secondary font-semibold' : 'text-primary-dark'}`}>Payment</div>
           </div>
         </div>
 
@@ -116,8 +125,8 @@ const CheckoutPage: React.FC = () => {
           {/* Left Column - Address or Payment */}
           <div className="lg:col-span-2">
             {step === 'address' ? (
-              <div className="bg-white border border-[#CFC5BA] rounded-xl shadow-lg p-6">
-                <h2 className="text-xl font-bold text-[#0E1C4C] mb-6">Shipping Address</h2>
+              <div className="bg-white border border-primary/10 rounded-xl shadow-lg p-6">
+                <h2 className="text-xl font-bold text-primary-dark mb-6 font-heading">Shipping Address</h2>
                 
                 {!isAddingNewAddress && addresses.length > 0 ? (
                   <div className="space-y-4">
@@ -126,20 +135,20 @@ const CheckoutPage: React.FC = () => {
                       {addresses.map((address) => (
                         <div 
                           key={address.id} 
-                          className={`border ${selectedAddress?.id === address.id ? 'border-[#7B1113]' : 'border-[#CFC5BA]'} rounded-lg p-4 cursor-pointer hover:border-[#7B1113] transition-colors`}
+                          className={`border ${selectedAddress?.id === address.id ? 'border-secondary bg-secondary/5' : 'border-primary/10'} rounded-lg p-4 cursor-pointer hover:border-secondary transition-all duration-200`}
                           onClick={() => setSelectedAddress(address)}
                         >
                           <div className="flex justify-between items-start">
                             <div>
-                              <p className="font-medium text-[#0E1C4C]">{address.fullName}</p>
-                              <p className="text-[#4B423A] mt-1">{address.phoneNumber}</p>
-                              <p className="text-[#4B423A] mt-2">{address.addressLine1}</p>
-                              {address.addressLine2 && <p className="text-[#4B423A]">{address.addressLine2}</p>}
-                              <p className="text-[#4B423A]">{address.city}, {address.state}, {address.postalCode}</p>
-                              <p className="text-[#4B423A]">{address.country}</p>
+                              <p className="font-medium text-primary-dark">{address.fullName}</p>
+                              <p className="text-primary-dark/80 mt-1">{address.phoneNumber}</p>
+                              <p className="text-primary-dark/80 mt-2">{address.addressLine1}</p>
+                              {address.addressLine2 && <p className="text-primary-dark/80">{address.addressLine2}</p>}
+                              <p className="text-primary-dark/80">{address.city}, {address.state}, {address.postalCode}</p>
+                              <p className="text-primary-dark/80">{address.country}</p>
                             </div>
                             {address.isDefault && (
-                              <span className="bg-[#E6E1DC] text-[#4B423A] text-xs px-2 py-1 rounded">
+                              <span className="bg-accent/10 text-accent text-xs px-2 py-1 rounded-full">
                                 Default
                               </span>
                             )}
@@ -151,9 +160,9 @@ const CheckoutPage: React.FC = () => {
                     {/* Add New Address Button */}
                     <button
                       onClick={() => setIsAddingNewAddress(true)}
-                      className="text-[#7B1113] hover:text-[#921518] font-medium flex items-center"
+                      className="text-secondary hover:text-secondary-dark font-medium flex items-center gap-1 mt-4 bg-secondary/5 hover:bg-secondary/10 px-3 py-2 rounded-lg transition-all duration-200"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z" clipRule="evenodd" />
                       </svg>
                       Add New Address
@@ -169,7 +178,7 @@ const CheckoutPage: React.FC = () => {
                       ) : (
                         <button
                           disabled
-                          className="w-full py-3 px-4 rounded-lg font-semibold text-white bg-gray-400 cursor-not-allowed transition-colors"
+                          className="w-full py-3 px-4 rounded-lg font-semibold text-white bg-gray-400 cursor-not-allowed transition-all duration-300 shadow-md"
                         >
                           Select an Address
                         </button>
@@ -188,7 +197,7 @@ const CheckoutPage: React.FC = () => {
                   <div className="mt-4">
                     <button
                       onClick={() => setIsAddingNewAddress(false)}
-                      className="text-[#4B423A] hover:text-[#0E1C4C] font-medium"
+                      className="text-primary-dark hover:text-primary font-medium bg-primary-light/10 hover:bg-primary-light/20 px-4 py-2 rounded-lg transition-all duration-200"
                     >
                       Cancel
                     </button>
@@ -196,7 +205,8 @@ const CheckoutPage: React.FC = () => {
                 )}
               </div>
             ) : (
-              <div className="bg-white border border-[#CFC5BA] rounded-xl shadow-lg p-6">
+              <div className="bg-white border border-primary/10 rounded-xl shadow-lg p-6">
+                <h2 className="text-xl font-bold text-primary-dark mb-6 font-heading">Payment</h2>
                 {order ? (
                   <PayUForm 
                     order={order} 
@@ -204,13 +214,13 @@ const CheckoutPage: React.FC = () => {
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center py-8">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#7B1113]"></div>
-                    <p className="mt-4 text-[#4B423A]">Preparing your order...</p>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary"></div>
+                    <p className="mt-4 text-primary-dark/80 font-medium">Preparing your order...</p>
                   </div>
                 )}
                 
                 {paymentError && (
-                  <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg">
+                  <div className="mt-4 p-3 bg-red-100/50 text-secondary border border-secondary/20 rounded-lg">
                     <p className="font-medium">Payment Error:</p>
                     <p>{paymentError}</p>
                   </div>
