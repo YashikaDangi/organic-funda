@@ -10,7 +10,7 @@ const WhatsAppButton = () => {
       href={`https://wa.me/${phoneNumber}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed right-4 top-11/12 transform -translate-y-1/2 z-50 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition"
+      className="fixed right-4 bottom-0 transform -translate-y-1/2 z-50 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition"
       title="Chat with us on WhatsApp"
     >
       <FaWhatsapp size={28} />

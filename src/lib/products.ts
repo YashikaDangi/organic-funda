@@ -9,6 +9,9 @@ export type Product = {
   rating?: number;
   discount?: number;
   category?: string;
+  tags?: string[];
+  benefits?: string;
+  createdAt?: string;
 };
 
 export const products: Product[] = [

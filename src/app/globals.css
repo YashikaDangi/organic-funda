@@ -1,37 +1,223 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import slick carousel styles */
 @import "slick-carousel/slick/slick.css";
 @import "slick-carousel/slick/slick-theme.css";
 
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-.container {
-  @apply max-w-7xl mx-auto px-4;
+  /* Primary Colors */
+  --color-primary: 79, 111, 82; /* Forest Green */
+  --color-primary-light: 163, 193, 138; /* Light Green */
+  --color-primary-dark: 24, 62, 45; /* Dark Green */
+  
+  /* Secondary Colors */
+  --color-secondary: 194, 125, 56; /* Earthy Brown */
+  --color-secondary-light: 225, 216, 195; /* Beige */
+  --color-secondary-dark: 75, 66, 58; /* Dark Brown */
+  
+  /* Neutral Colors */
+  --color-background: 245, 242, 231; /* Off-White */
+  --color-foreground: 51, 51, 51; /* Dark Gray */
+  --color-accent: 201, 226, 101; /* Moss Green */
+  
+  /* Status Colors */
+  --color-success: 34, 197, 94; /* Green */
+  --color-warning: 234, 179, 8; /* Yellow */
+  --color-error: 220, 38, 38; /* Red */
+  
+  /* Font Families */
+  --font-heading: var(--font-playfair);
+  --font-body: var(--font-montserrat);
+  --font-accent: var(--font-poppins);
 }
 
+/* Base Styles */
 html {
   scroll-behavior: smooth;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  scroll-padding-top: 80px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+/* Layout */
+.container {
+  max-width: 80rem; /* max-w-7xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: 1.5rem; /* sm:px-6 */
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 2rem; /* lg:px-8 */
+    padding-right: 2rem;
+  }
+}
+
+/* Components */
+/* Components */
+  /* Buttons */
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    font-weight: 500;
+    border-radius: 9999px;
+    padding: 0.75rem 1.5rem;
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: 300ms;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-primary-dark);
+  }
+
+  .btn-secondary {
+    background-color: var(--color-secondary);
+    color: white;
+    font-weight: 500;
+    border-radius: 9999px;
+    padding: 0.75rem 1.5rem;
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: 300ms;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-secondary-dark);
+  }
+
+  .btn-outline {
+    border: 2px solid white;
+    color: white;
+    font-weight: 500;
+    border-radius: 9999px;
+    padding: 0.75rem 1.5rem;
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: 300ms;
+  }
+  .btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Cards */
+  .card {
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    border: 1px solid rgba(243, 244, 246, 1);
+    transition-property: box-shadow;
+    transition-duration: 300ms;
+  }
+  .card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Section */
+  .section {
+    padding: 3rem 0;
+  }
+
+  /* Badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .badge-primary {
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+    color: var(--color-primary);
+  }
+
+  .badge-secondary {
+    background-color: rgba(var(--color-secondary-rgb), 0.1);
+    color: var(--color-secondary);
+  }
+
+  .badge-accent {
+    background-color: rgba(var(--color-accent-rgb), 0.1);
+    color: var(--color-accent);
+  }
+
+  .badge-success {
+    background-color: rgba(220, 252, 231, 1);
+    color: rgba(22, 101, 52, 1);
+  }
+
+  .badge-warning {
+    background-color: rgba(254, 249, 195, 1);
+    color: rgba(133, 77, 14, 1);
+  }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out;
+}
+
+/* Slick Carousel Custom Styles */
+.slick-dots li button:before {
+  color: rgb(var(--color-primary));
+  opacity: 0.5;
+}
+
+.slick-dots li.slick-active button:before {
+  color: rgb(var(--color-primary));
+  opacity: 1;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(var(--color-background));
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--color-primary), 0.5);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(var(--color-primary));
 }
 

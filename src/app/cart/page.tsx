@@ -23,16 +23,17 @@ const CartPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#EFEAE6] py-16 px-4 flex flex-col items-center">
+    <div className="min-h-screen bg-gradient-to-b from-primary-light/10 to-white py-20 px-4 flex flex-col items-center">
+      <h1 className="text-3xl font-bold text-primary-dark mb-8 font-heading">Your Cart</h1>
       {cart.length > 0 ? (
-        <div className="w-full max-w-2xl bg-white border border-[#CFC5BA] rounded-xl shadow-lg p-6 space-y-6 transition-all duration-300 hover:shadow-xl">
+        <div className="w-full max-w-2xl bg-white border border-primary/10 rounded-xl shadow-lg p-6 space-y-6 transition-all duration-300 hover:shadow-xl">
           {cart.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-[#E6E1DC] pb-4 gap-4 hover:bg-[#F9F7F4] p-2 rounded-lg transition"
+              className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-primary/10 pb-4 gap-4 hover:bg-primary-light/5 p-2 rounded-lg transition-all duration-200"
             >
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-[#F5F2EF] rounded-md overflow-hidden flex items-center justify-center">
+                <div className="w-16 h-16 bg-accent/10 rounded-lg overflow-hidden flex items-center justify-center border border-accent/20">
                   <img
                     src={item.image}
                     alt={item.name}
@@ -43,39 +44,40 @@ const CartPage: React.FC = () => {
                   />
                 </div>
 
-                <div className="text-[#4B423A] font-medium text-base">
+                <div className="text-primary-dark font-medium text-base">
                   {item.name}
                 </div>
               </div>
 
               <div className="flex flex-col sm:flex-row items-end sm:items-center gap-4">
-                <div className="flex items-center border border-[#CFC5BA] rounded-lg overflow-hidden shadow-sm">
+                <div className="flex items-center border border-accent/30 rounded-lg overflow-hidden shadow-sm">
                   <button
                     onClick={() =>
                       updateQuantity(item.id, Math.max(1, item.quantity - 1))
                     }
-                    className="px-3 py-1 bg-[#EFEAE6] hover:bg-[#E6E1DC] text-[#4B423A] transition duration-200"
+                    className="px-3 py-1 bg-accent/10 hover:bg-accent/20 text-primary-dark transition-all duration-200"
                   >
                     -
                   </button>
-                  <span className="px-3 py-1 text-center w-10 text-[#1F1F1F] font-semibold">
+                  <span className="px-3 py-1 text-center w-10 text-primary-dark font-semibold">
                     {item.quantity}
                   </span>
                   <button
                     onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                    className="px-3 py-1 bg-[#EFEAE6] hover:bg-[#E6E1DC] text-[#4B423A] transition duration-200"
+                    className="px-3 py-1 bg-accent/10 hover:bg-accent/20 text-primary-dark transition-all duration-200"
                   >
                     +
                   </button>
                 </div>
 
-                <div className="text-[#0E1C4C] font-semibold min-w-[80px] text-right text-base">
+                <div className="text-secondary font-semibold min-w-[80px] text-right text-base">
                   ₹{(item.price * item.quantity).toFixed(2)}
                 </div>
 
                 <button
                   onClick={() => removeFromCart(item.id)}
-                  className="text-[#7B1113] hover:text-[#921518] transition-colors"
+                  className="text-secondary hover:text-secondary-dark transition-all duration-200 bg-secondary/5 hover:bg-secondary/10 p-2 rounded-full"
+                  aria-label="Remove item"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -96,10 +98,10 @@ const CartPage: React.FC = () => {
             </div>
           ))}
 
-          <div className="mt-6 pt-4 border-t border-[#E6E1DC]">
-            <div className="flex justify-between items-center text-lg font-bold text-[#0E1C4C]">
+          <div className="mt-6 pt-4 border-t border-primary/10">
+            <div className="flex justify-between items-center text-lg font-bold text-primary-dark">
               <span>Total</span>
-              <span>₹{formattedTotal}</span>
+              <span className="text-secondary text-xl">₹{formattedTotal}</span>
             </div>
           </div>
 
@@ -110,8 +112,8 @@ const CartPage: React.FC = () => {
               className={`w-full ${
                 cart.length === 0
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#7B1113] hover:bg-[#921518]"
-              } text-white py-3 rounded-lg font-semibold transition duration-300 flex items-center justify-center gap-2`}
+                  : "bg-secondary hover:bg-secondary-dark"
+              } text-white py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-lg`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +134,7 @@ const CartPage: React.FC = () => {
 
             <Link
               href="/"
-              className="w-full text-center py-3 border border-[#0E1C4C] text-[#0E1C4C] rounded-lg font-semibold hover:bg-[#F5F2EF] transition duration-300 flex items-center justify-center gap-2"
+              className="w-full text-center py-3 border border-primary-dark text-primary-dark rounded-lg font-semibold hover:bg-primary-light/10 transition-all duration-300 flex items-center justify-center gap-2"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -159,11 +161,11 @@ const CartPage: React.FC = () => {
           )}
         </div>
       ) : (
-        <div className="text-center mt-16 text-[#4B423A] text-lg bg-white p-10 rounded-xl shadow-lg border border-[#CFC5BA] max-w-md mx-auto">
-          <div className="w-24 h-24 bg-[#EFEAE6] rounded-full shadow-inner flex items-center justify-center mx-auto mb-6">
+        <div className="text-center mt-8 text-primary-dark text-lg bg-white p-10 rounded-xl shadow-lg border border-primary/10 max-w-md mx-auto">
+          <div className="w-24 h-24 bg-accent/10 rounded-full shadow-inner flex items-center justify-center mx-auto mb-6">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-12 w-12 text-[#0E1C4C]"
+              className="h-12 w-12 text-accent"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -176,15 +178,15 @@ const CartPage: React.FC = () => {
               />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-[#0E1C4C] mb-2">
+          <h2 className="text-2xl font-bold text-primary-dark mb-2 font-heading">
             Your cart is empty
           </h2>
-          <p className="mb-8">
+          <p className="mb-8 text-primary-dark/80">
             Looks like you haven't added any products to your cart yet.
           </p>
           <Link
             href="/"
-            className="px-6 py-3 bg-[#0E1C4C] hover:bg-[#1A2C5C] text-white rounded-lg font-medium transition duration-300 inline-flex items-center gap-2"
+            className="px-6 py-3 bg-secondary hover:bg-secondary-dark text-white rounded-lg font-medium transition-all duration-300 inline-flex items-center gap-2 shadow-md hover:shadow-lg"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

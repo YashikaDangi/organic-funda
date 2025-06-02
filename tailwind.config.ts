@@ -3,13 +3,17 @@ import type { Config } from 'tailwindcss'
 const config: Config = {
   theme: {
     extend: {
-      fontFamily: {
-        heading: ['"Playfair Display"', 'serif'],
-        pacifico: ['var(--font-pacifico)', 'cursive'],
-      },
+      
       colors: {
-        forest: '#264A33',
-        accent: '#BFD88F', // underline color
+        forest: "#1D4228",
+        leaf: "#A3C18A",
+        parchment: "#F5F2E7",
+        beige: "#EDE6DB",
+        brown: "#C27D38",
+      },
+      fontFamily: {
+        heading: ["Playfair Display", "serif"],
+        body: ["Inter", "sans-serif"],
       },
     },
   },
