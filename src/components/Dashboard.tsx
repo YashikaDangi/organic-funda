@@ -8,7 +8,7 @@ import { GiWeightScale, GiMushroomGills } from "react-icons/gi";
 import { TbTruckDelivery, TbLeaf } from "react-icons/tb";
 import { MdOutlineLocalOffer, MdOutlineHealthAndSafety } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromCart } from "@/redux/slices/cartSlice";
+import { addToCart, removeFromCart, updateQuantity } from "@/redux/slices/cartSlice";
 import { RootState } from "@/redux/store";
 import Image from "next/image";
 import Link from "next/link";
@@ -92,29 +92,20 @@ const Dashboard: React.FC = () => {
       return;
     }
 
-    dispatch({
-      type: 'cart/addItem',
-      payload: { ...product, quantity: 1 }
-    });
+    dispatch(addToCart({ ...product, quantity: 1 }));
     setProductQuantities((prev) => ({ ...prev, [product.id]: 1 }));
   };
 
   const handleIncreaseQuantity = (productId: string) => {
     const newQuantity = (productQuantities[productId] || 0) + 1;
-    dispatch({
-      type: 'cart/updateQuantity',
-      payload: { id: productId, quantity: newQuantity }
-    });
+    dispatch(updateQuantity({ id: productId, quantity: newQuantity }));
     setProductQuantities((prev) => ({ ...prev, [productId]: newQuantity }));
   };
 
   const handleDecreaseQuantity = (productId: string) => {
     const currentQuantity = productQuantities[productId] || 0;
     if (currentQuantity <= 1) {
-      dispatch({
-        type: 'cart/removeItem',
-        payload: productId
-      });
+      dispatch(removeFromCart(productId));
       setProductQuantities((prev) => {
         const updated = { ...prev };
         delete updated[productId];
@@ -122,10 +113,7 @@ const Dashboard: React.FC = () => {
       });
     } else {
       const newQuantity = currentQuantity - 1;
-      dispatch({
-        type: 'cart/updateQuantity',
-        payload: { id: productId, quantity: newQuantity }
-      });
+      dispatch(updateQuantity({ id: productId, quantity: newQuantity }));
       setProductQuantities((prev) => ({ ...prev, [productId]: newQuantity }));
     }
   };
