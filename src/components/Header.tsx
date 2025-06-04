@@ -4,10 +4,13 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ShoppingCartIcon, UserIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
-import { GiMushroomGills } from "react-icons/gi";
+import { GiLeafSkeleton, GiMushroomGills } from "react-icons/gi";
+import { Sprout } from "lucide-react";
+
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useAuth } from "@/context/AuthContext";
+import { SP } from "next/dist/shared/lib/utils";
 
 const Header = () => {
   const { user, login, logout } = useAuth();
@@ -48,7 +51,7 @@ const Header = () => {
             href="/"
             className="text-2xl font-bold flex items-center gap-2 font-heading"
           >
-            <GiMushroomGills className={`text-3xl ${isScrolled ? 'text-secondary' : 'text-accent'}`} />
+            <Sprout className={`text-3xl ${isScrolled ? 'text-secondary' : 'text-accent'}`} />
             <span className={`${isScrolled ? 'text-primary-dark' : 'text-white'}`}>OrganicFunda</span>
           </Link>
 
@@ -70,22 +73,25 @@ const Header = () => {
           <div className="flex items-center gap-4">
             {/* Cart */}
             <div className="relative">
-              <Link
-                href="/cart"
-                className={`transition p-2 rounded-full ${isScrolled ? 'text-primary-dark hover:text-primary hover:bg-primary/5' : 'text-white hover:text-accent hover:bg-white/10'}`}
-              >
-                <ShoppingCartIcon className="w-6 h-6" />
-                {isClient && cartItemCount > 0 && (
-                  <motion.span 
-                    initial={{ scale: 0.5, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="absolute -top-2 -right-2 bg-accent text-white text-xs w-5 h-5 flex items-center justify-center rounded-full font-medium"
-                  >
-                    {cartItemCount}
-                  </motion.span>
-                )}
-              </Link>
-            </div>
+  <Link
+    href="/cart"
+    className={`transition p-2 rounded-full ${isScrolled ? 'text-primary-dark hover:text-primary hover:bg-primary/5' : 'text-white hover:text-accent hover:bg-white/10'}`}
+  >
+    <div className="relative"> {/* Wrap the icon */}
+      <ShoppingCartIcon className="w-6 h-6" />
+      {isClient && cartItemCount > 0 && (
+        <motion.span 
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="absolute -top-1.5 -right-1.5 bg-accent text-white text-xs w-4 h-4 flex items-center justify-center rounded-full font-medium"
+        >
+          {cartItemCount}
+        </motion.span>
+      )}
+    </div>
+  </Link>
+</div>
+
 
             {/* Auth Buttons */}
             {!user && isClient ? (

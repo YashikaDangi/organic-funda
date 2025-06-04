@@ -60,7 +60,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       className="card group relative flex flex-col h-full"
     >
       {/* Image Container */}
-      <div className="relative overflow-hidden aspect-square">
+      <div className="relative overflow-hidden aspect-square ">
         <img
           src={product.image}
           alt={product.name}

@@ -1,24 +1,24 @@
+import { Sprout } from "lucide-react";
 import Link from "next/link";
-import { FaInstagram, FaTwitter, FaLeaf } from "react-icons/fa";
-import { GiMushroomGills } from "react-icons/gi";
-
+import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 export default function Footer() {
   return (
     <footer className="bg-[#183E2D] text-[#F2EFEA] py-12">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Logo & Tagline */}
         <div>
           <div className="flex items-center gap-2 text-2xl font-bold text-green-100">
-            <GiMushroomGills className="" />
+            <Sprout className="" />
             <span className="font-pacifico">OrganicFunda</span>
           </div>
           <p className="text-sm mt-3 text-green-100/70">
-            Exploring the world of fungi — edible, medicinal, and magical.
+          Discover the finest selection of hand-harvested organic mushrooms, 
+          sustainably grown with care and delivered fresh to your doorstep.
           </p>
         </div>
 
         {/* Navigation Links */}
-        <div>
+        {/* <div>
           <h4 className="text-lg font-semibold text-[#C9E265] mb-4">Explore</h4>
           <ul className="space-y-2 text-sm text-green-100/80">
             <li>
@@ -42,7 +42,7 @@ export default function Footer() {
               </Link>
             </li>
           </ul>
-        </div>
+        </div> */}
 
         {/* Social & Newsletter */}
         <div>
@@ -64,10 +64,16 @@ export default function Footer() {
             >
               <FaTwitter size={20} />
             </a>
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-100 hover:text-blue-400 transition"
+            >
+              <FaYoutube size={20} />
+            </a>
           </div>
-          <p className="text-sm text-green-100/70">
-            Join our newsletter for mushroom tips and updates.
-          </p>
+          
         </div>
       </div>
 

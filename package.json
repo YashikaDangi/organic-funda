@@ -19,6 +19,7 @@
     "firebase-admin": "^13.4.0",
     "framer-motion": "^12.15.0",
     "lodash": "^4.17.21",
+    "lucide-react": "^0.513.0",
     "mongodb": "^6.16.0",
     "mongoose": "^8.15.0",
     "next": "15.3.2",

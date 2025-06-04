@@ -266,12 +266,13 @@ const Dashboard: React.FC = () => {
         </MotionDiv>
 
         {/* Product Grid */}
+        <div className="max-w-5xl mx-auto px-4">
         <MotionDiv 
-          initial="hidden"
-          animate="visible"
-          variants={staggerContainer}
-          className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-16"
-        >
+    initial="hidden"
+    animate="visible"
+    variants={staggerContainer}
+    className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 mb-16"
+  >
           {filteredProducts
             .filter(product => searchQuery ? 
               product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -361,7 +362,7 @@ const Dashboard: React.FC = () => {
                     
                     <div className="flex items-center gap-2">
                       <TbTruckDelivery className="text-accent" />
-                      <span className="text-sm">Free delivery over ₹500</span>
+                      <span className="text-sm">Same day delivery</span>
                     </div>
                     
                     {product.benefits && (
@@ -459,6 +460,7 @@ const Dashboard: React.FC = () => {
             </MotionDiv>
           ))}
         </MotionDiv>
+        </div>
         
         {/* Features Banner */}
         {/* <MotionDiv 
